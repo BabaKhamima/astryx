@@ -1,0 +1,53 @@
+{
+  "projectId": "a48cdfdf-3d3c-4e06-9f8a-dfd9905fb0b4",
+  "shape": "storybook",
+  "storybookConfigDir": "apps/storybook",
+  "storybookStatic": ".design-sync/sb-reference",
+  "pkg": "@astryxdesign/core",
+  "globalName": "Astryx",
+  "extraEntries": ["@astryxdesign/theme-leagueproof"],
+  "cssEntry": "dist/astryx-with-reset.css",
+  "provider": {
+    "component": "Theme",
+    "props": {
+      "theme": {"$ref": "leagueproofTheme"}
+    }
+  },
+  "readmeHeader": ".design-sync/conventions.md",
+  "libOverrides": {
+    "story-imports.mjs": "28+ story files call @stylexjs/stylex's create() directly for demo-only layout; the real package throws at runtime unless compiled by babel-plugin-stylex, which this converter's plain-esbuild preview compile never runs. Forked to shim @stylexjs/stylex to an inert no-op module for story compilation only — the actual shipped components keep their real precompiled styles from dist."
+  },
+  "overrides": {
+    "AppShell": {"cardMode": "column"},
+    "Button": {"cardMode": "column"},
+    "Carousel": {"cardMode": "single", "primaryStory": "Default"},
+    "ChatComposer": {"cardMode": "column"},
+    "ChatComposerInput": {"cardMode": "column"},
+    "ChatLayout": {"cardMode": "column"},
+    "ChatTokenizedText": {"cardMode": "column"},
+    "ChatToolCalls": {"cardMode": "column"},
+    "CheckboxInput": {"cardMode": "column"},
+    "DateTimeInput": {"cardMode": "column"},
+    "Field": {"cardMode": "column"},
+    "FileInput": {"cardMode": "column"},
+    "HoverCard": {"cardMode": "column"},
+    "Icon": {"cardMode": "column"},
+    "Lightbox": {"cardMode": "column"},
+    "Markdown": {"cardMode": "column"},
+    "OverflowList": {"cardMode": "column"},
+    "Overlay": {"cardMode": "column"},
+    "PowerSearch": {"cardMode": "column"},
+    "Stack": {"cardMode": "column"},
+    "Switch": {"cardMode": "column"},
+    "TabList": {"cardMode": "single", "primaryStory": "Default"},
+    "Table": {"cardMode": "column"},
+    "Text": {"cardMode": "column"},
+    "TextArea": {"cardMode": "column"},
+    "Theme": {"cardMode": "column"},
+    "Tokenizer": {"cardMode": "column"},
+    "Toolbar": {"cardMode": "column"},
+    "TopNav": {"cardMode": "column"},
+    "TopNavMenu": {"cardMode": "column"},
+    "VisuallyHidden": {"cardMode": "column"}
+  }
+}

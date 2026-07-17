@@ -1,0 +1,63 @@
+{
+  "name": "@astryxdesign/theme-leagueproof",
+  "version": "0.0.1",
+  "displayName": "LEAGUEPROOF Theme",
+  "private": false,
+  "description": "Electric lime accent on the neutral spine, per the LEAGUEPROOF Component Library.",
+  "author": "Meta Open Source",
+  "license": "MIT",
+  "homepage": "https://github.com/facebook/astryx#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facebook/astryx.git",
+    "directory": "packages/themes/leagueproof"
+  },
+  "bugs": {
+    "url": "https://github.com/facebook/astryx/issues"
+  },
+  "keywords": [
+    "astryx",
+    "theme",
+    "design-system",
+    "lucide",
+    "design-tokens"
+  ],
+  "sideEffects": false,
+  "main": "./dist/source.js",
+  "types": "./dist/source.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/source.d.ts",
+      "import": "./dist/source.mjs",
+      "require": "./dist/source.js"
+    },
+    "./built": {
+      "types": "./dist/leagueproof.d.ts",
+      "import": "./dist/leagueproof.js",
+      "require": "./dist/leagueproof.js"
+    },
+    "./theme.css": {
+      "types": "./theme.css.d.ts",
+      "default": "./dist/theme.css"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "astryx theme build src/leagueproofTheme.ts -o dist/theme.css && tsup && tsc --project tsconfig.build.json"
+  },
+  "dependencies": {
+    "lucide-react": "^1.18.0"
+  },
+  "peerDependencies": {
+    "@astryxdesign/core": "0.1.6",
+    "@astryxdesign/theme-neutral": "0.1.6",
+    "react": ">=19"
+  },
+  "devDependencies": {
+    "@astryxdesign/cli": "0.1.6"
+  },
+  "module": "./dist/source.mjs"
+}

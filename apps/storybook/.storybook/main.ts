@@ -101,6 +101,9 @@ const config: StorybookConfig = {
               '@astryxdesign/theme-y2k/*': [
                 path.join(rootDir, 'packages/themes/y2k/src/*'),
               ],
+              '@astryxdesign/theme-leagueproof/*': [
+                path.join(rootDir, 'packages/themes/leagueproof/src/*'),
+              ],
             },
             unstable_moduleResolution: {
               type: 'commonJS',
@@ -131,6 +134,10 @@ const config: StorybookConfig = {
           '@astryxdesign/theme-y2k': path.resolve(
             rootDir,
             'packages/themes/y2k/src/source.ts',
+          ),
+          '@astryxdesign/theme-leagueproof': path.resolve(
+            rootDir,
+            'packages/themes/leagueproof/src/source.ts',
           ),
           '@astryxdesign/vega': path.resolve(rootDir, 'packages/vega/src'),
         },
