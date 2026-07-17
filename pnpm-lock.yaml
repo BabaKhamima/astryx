@@ -691,6 +691,25 @@ importers:
         specifier: 0.1.6
         version: link:../../cli
 
+  packages/themes/leagueproof:
+    dependencies:
+      '@astryxdesign/core':
+        specifier: 0.1.6
+        version: link:../../core
+      '@astryxdesign/theme-neutral':
+        specifier: 0.1.6
+        version: link:../neutral
+      lucide-react:
+        specifier: ^1.18.0
+        version: 1.23.0(react@19.2.7)
+      react:
+        specifier: '>=19'
+        version: 19.2.7
+    devDependencies:
+      '@astryxdesign/cli':
+        specifier: 0.1.6
+        version: link:../../cli
+
   packages/themes/matcha:
     dependencies:
       '@astryxdesign/core':

@@ -6,6 +6,7 @@ import {Theme, LayerProvider} from '@astryxdesign/core';
 import {neutralTheme} from '@astryxdesign/theme-neutral';
 import {stoneTheme} from '@astryxdesign/theme-stone';
 import {y2kTheme} from '@astryxdesign/theme-y2k';
+import {leagueproofTheme} from '@astryxdesign/theme-leagueproof';
 // Import the base reset stylesheet
 import '@astryxdesign/core/reset.css';
 
@@ -16,6 +17,7 @@ const themes = {
   neutral: neutralTheme,
   stone: stoneTheme,
   y2k: y2kTheme,
+  leagueproof: leagueproofTheme,
 };
 
 /**
@@ -93,6 +95,7 @@ const preview: Preview = {
           {value: 'neutral', title: 'Neutral', icon: 'circle'},
           {value: 'stone', title: 'Stone', icon: 'circlehollow'},
           {value: 'y2k', title: 'Y2K', icon: 'lightning'},
+          {value: 'leagueproof', title: 'LEAGUEPROOF', icon: 'star'},
         ],
         dynamicTitle: true,
       },
@@ -111,7 +114,7 @@ const preview: Preview = {
     },
   },
   initialGlobals: {
-    astryxTheme: 'neutral',
+    astryxTheme: 'leagueproof',
     colorMode: 'light',
   },
   decorators: [withTheme],
