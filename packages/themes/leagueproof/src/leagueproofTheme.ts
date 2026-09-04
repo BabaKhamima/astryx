@@ -3,15 +3,21 @@
 /**
  * LEAGUEPROOF Theme
  *
- * Extends the neutral theme with the brand accent pulled from the
- * LEAGUEPROOF Component Library Figma file (node 1:3):
- * https://www.figma.com/design/ejncH9a6FFuLwxtJwHaNcB/LEAGUEPROOF-%E2%80%94-Component-Library?node-id=1-3
+ * Full brand theme, verified against the real design handoff (39 app
+ * screens dark+light, design/README.md's token tables) in the
+ * BabaKhamima/Leagueproof app repo — not pixel-sampled estimates.
  *
- * Figma's variable/design-context tools were unavailable when this was
- * authored, so accent hex values are estimated by pixel-sampling the
- * rendered screenshot rather than read from Figma's own color variables.
- * Confirm against the file's published variables before shipping to
- * production.
+ * SOURCE OF TRUTH IS THAT REPO, NOT THIS FILE: @leagueproof/tokens
+ * (packages/tokens/src/colors.ts) is the canonical values, consumed
+ * directly by apps/web/lib/leagueproofTheme.ts there. This file is a
+ * hand-kept mirror — this package can't depend on a workspace package in a
+ * different repo, so if the brand tokens ever change, update
+ * @leagueproof/tokens first, then apps/web/lib/leagueproofTheme.ts, then
+ * copy the resulting values here.
+ *
+ * An earlier version of this file used pixel-sampled screenshot estimates
+ * (accent-only, explicitly flagged "unconfirmed") — this replaces it with
+ * the complete, verified token set plus typography.
  */
 
 import {defineTheme} from '@astryxdesign/core/theme';
@@ -21,19 +27,51 @@ export const leagueproofTheme = defineTheme({
   name: 'leagueproof',
   extends: neutralTheme,
 
+  typography: {
+    heading: {
+      family: 'Times New Roman',
+      fallbacks: 'Times, Georgia, serif',
+      weight: '800',
+    },
+    body: {
+      family: 'Archivo',
+      fallbacks:
+        '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      weight: '500',
+    },
+  },
+
   tokens: {
-    // Electric lime — primary brand accent (filled buttons, active tab
-    // underline, avatar "+" badges, brand wordmark bar). Screenshot samples
-    // clustered around #a5ec00–#c4fd3e; using the cluster average. Dark-mode
-    // value is unconfirmed (source file only shows light mode) — kept equal
-    // to light for now.
-    '--color-accent': ['#b2f419', '#b2f419'],
+    // Lime — the hero color. Never change it.
+    '--color-accent': ['#B2F419', '#B2F419'],
+    '--color-on-accent': ['#0A0A0A', '#0A0A0A'],
+    '--color-accent-muted': ['#E4F7BD', '#39481A'],
+    // Lime as *ink* fails contrast on paper (~1.4:1) — light mode
+    // substitutes olive (7.5:1); dark mode can use lime directly.
+    '--color-text-accent': ['#3F5D00', '#B2F419'],
 
-    // Pastel lime — secondary/ghost button fill, light-tint hover states.
-    '--color-accent-muted': ['#def6a8', '#3c4a12'],
+    '--color-background-body': ['#F4F3EF', '#101113'],
+    '--color-background-surface': ['#FFFFFF', '#191A1D'],
+    '--color-background-card': ['#FBFAF7', '#161719'],
+    '--color-background-muted': ['#E9E8E2', '#212327'],
 
-    // Bright lime needs dark text for contrast, unlike neutralTheme's
-    // near-black accent which pairs with white text.
-    '--color-on-accent': ['#0a0a0a', '#0a0a0a'],
+    '--color-text-primary': ['#111214', '#F4F5F2'],
+    '--color-text-secondary': ['#55585F', '#9498A0'],
+    '--color-text-disabled': ['#6B6E75', '#5F636A'],
+
+    '--color-border': ['#DCDBD4', '#292B30'],
+    '--color-border-emphasized': ['#BCBBB3', '#3A3D43'],
+
+    '--color-success': ['#186538', '#54D98C'],
+    '--color-warning': ['#8A4B00', '#F5C451'],
+    '--color-error': ['#A41C1C', '#FF7777'],
+
+    // No LEAGUEPROOF override for the secondary/guardian blue (#1A4FD6
+    // light / #3A9BFF dark) or a generic "info" token yet — Astryx has no
+    // matching semantic slot (it uses per-hue categorical tokens like
+    // --color-background-blue instead, meant for badge-style tinting, not
+    // a single brand-secondary color). Needs resolving before the
+    // guardian-verification screens (E1–E8, H1–H4) get built against this
+    // theme — left as Astryx defaults for now.
   },
 });
