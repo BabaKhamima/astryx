@@ -1,5 +1,60 @@
 # design-sync notes — LEAGUEPROOF Design System
 
+## 2026-09-04 re-sync — theme values fixed, storybookConfigDir bug found and fixed
+
+- **The theme package's actual values were wrong, not just unsynced.** `packages/themes/leagueproof/src/leagueproofTheme.ts`
+  only overrode 3 tokens (`--color-accent`/`--color-accent-muted`/`--color-on-accent`) with
+  pixel-sampled screenshot estimates, explicitly flagged "unconfirmed" in its own comments —
+  the same content as an abandoned scaffold from an unrelated earlier exploration. Replaced with
+  the complete, verified 170-token-override theme (all surface/text/border/status pairs, the
+  light-mode lime-to-olive ink substitution, Times New Roman/Archivo typography), matching
+  `apps/web/lib/leagueproofTheme.ts` in the separate `BabaKhamima/Leagueproof` app repo — that
+  repo's `@leagueproof/tokens` package (sourced from the real design handoff) is the actual
+  source of truth; this file is a hand-kept mirror since it can't depend on a package in a
+  different repo. **No LEAGUEPROOF override yet for secondary/guardian blue or a generic "info"
+  token** — Astryx has no matching semantic slot; needs resolving before the guardian-verification
+  screens get built.
+- **`[GENERAL]` `cfg.storybookConfigDir: "apps/storybook"` was wrong — silently broke ALL preview
+  generation** (not a symptom isolated to a few components). The current skill version's
+  `pickStorybookDir()` returns `SB_CONFIG_DIR` verbatim (no `.storybook` auto-append), and
+  `resolveStorySources()` then does `dirname(sbDir)` to get the storybook project root that
+  story `importPath`s resolve against — so `storybookConfigDir` must be the **literal
+  `.storybook` directory**, not its parent package dir. With the wrong value, `dirname()` landed
+  one level too high (`apps` instead of `apps/storybook`), every story-source resolution failed
+  silently (log showed `story sources: 0/0 stories paired`), and `previews: 0 generated` —
+  every non-owned component fell back to the floor/fallback card with literally no compiled
+  preview (`(no shot)` on every story in every compare sheet), which cascaded into false
+  `[COMPARE] ✗` "errors" on components like CommandPalette/DateRangeInput/Heading/PowerSearch
+  that had nothing wrong with them individually. **Fix**: `storybookConfigDir` set to
+  `"apps/storybook/.storybook"`. After the fix: `story sources: 1484/1484 paired`,
+  `previews: 93 generated`. This may be a skill-version behavior change (the prior successful
+  sync's config apparently worked with the package-dir value, meaning either the driver was run
+  from a different cwd where the `process.cwd()` fallback happened to resolve correctly, or an
+  older skill version auto-appended `.storybook`) — if a future re-sync hits `previews: 0
+generated` / `story sources: 0/0` again, check this field FIRST before assuming a new bug.
+- Once previews were actually generating, the real diff was tiny: only 5 components
+  (`AspectRatio`, `Layout`, `MediaTheme`, `Theme`, `Tooltip` — the 5 owned-preview components)
+  needed re-grading; the other 93 carried forward their existing grades automatically, per the
+  skill's own rule that a pure token-value change doesn't invalidate structural-correctness
+  grades. All 5 graded `match` (charts/token-inspector hex values byte-identical, lime buttons
+  render correctly, closed-trigger tooltip states match). Confirms the theme is correctly wired
+  end-to-end, not just present in source.
+- **`MediaTheme` needed 2 more skips beyond the 3 already documented above** (`On Light`,
+  `Component Override Boundary`, `Across Themes`, already known-unresolvable): once those 3 were
+  skipped, the 6-story compare cap exposed 2 more stories that were previously hidden behind it —
+  `Auto Detect From Image` and `Regional Detection` — which the owned preview's own comment
+  already documented as deliberately omitted (remote-image/useImageMode stories, out of scope).
+  Added both to `cfg.overrides.MediaTheme.skip` to close this out formally; no new investigation
+  needed, just surfaced by the skip freeing up cap slots.
+- `conventions.md` (the README header, read by the design agent) was corrected: it claimed "only
+  3 tokens are LEAGUEPROOF-specific, everything else inherits neutral unmodified" — false as of
+  this run's fix. Now documents the full token list, the `--color-text-accent` ink-vs-fill
+  distinction, the missing secondary/info-color gap, and the new typography tokens.
+- Full re-sync completed: `ok: true`, 98/98 components uploaded, live bundle spot-checked
+  post-upload and confirmed carrying the real 170-token theme (not the stale 3-token one).
+- The **"Only 4/98 components have been visually graded"** line in the old Re-sync risks section
+  below is now stale/superseded — see the updated Re-sync risks section at the end of this file.
+
 ## Global fixes (apply automatically on re-sync via config/overrides)
 
 - **`[GENERAL]` StyleX runtime crash in story previews**: 28+ `.stories.tsx` files call
@@ -222,8 +277,23 @@
   component rendering at all — if the astryx repo's own build output layout changes (e.g.
   `dist/astryx.css` renamed/moved, or story files stop using raw `@stylexjs/stylex`), both need
   re-verification, not just a rebuild.
-- Only 4/98 components have been visually graded so far (Button, Dialog, Avatar, Badge — the
-  solo diversity set). The rest are unverified; do not treat their generated previews as
-  confirmed-correct until graded.
+- **Superseded (see 2026-09-04 entry above)**: as of this run, 98/98 components are covered
+  under the uploaded anchor — the 5 owned-preview components (AspectRatio, Layout, MediaTheme,
+  Theme, Tooltip) were freshly image-graded this run; the other 93 carried forward prior grades
+  per the "token-value-only changes don't invalidate grades" rule. Still true: only a small
+  diversity set (the original solo phase's 4, plus these 5) has ever had a human/agent actually
+  look at rendered pixels — the remaining ~89 are structurally verified (they compile, pair, and
+  render without error) but their carried-forward grades trace back to whichever earlier sync
+  first graded them, not this run. Re-verify with `--force` if a future change is large enough
+  to warrant doubting the carry-forward (this run's theme-value-only change was correctly judged
+  not to warrant that, per the skill's own rebuild-rules table).
+- `cfg.storybookConfigDir` must be the literal `.storybook` directory
+  (`"apps/storybook/.storybook"`), not its parent package dir — see the 2026-09-04 entry above.
+  Getting this wrong doesn't error loudly; it silently zeroes out preview generation for the
+  entire roster. Check this first if a future re-sync shows `previews: 0 generated`.
 - The `node_modules/@astryxdesign/theme-leagueproof` symlink is manual/undocumented in any
   install script — a fresh clone needs it recreated before the converter can resolve the theme.
+- `apps/storybook/dist` / `packages/core/dist/astryx-with-reset.css` are derived, gitignored
+  build output — regenerate both (full `pnpm -F "@astryxdesign/core..." build`, then
+  `cat packages/core/src/reset.css packages/core/dist/astryx.css > packages/core/dist/astryx-with-reset.css`)
+  on a fresh clone before running the converter, same as `.design-sync/sb-reference`.
