@@ -66,6 +66,18 @@ export const leagueproofTheme = defineTheme({
     '--color-warning': ['#8A4B00', '#F5C451'],
     '--color-error': ['#A41C1C', '#FF7777'],
 
+    // Coach App addition (2026-09) — background-inverted and muted status
+    // tints. The coach app hasn't had a dark-mode design pass, so only
+    // light values are specified; using light for both modes here rather
+    // than inventing a dark one. Replace with a real [light, dark] pair
+    // once that design pass happens — mirrors apps/web/lib/leagueproofTheme.ts
+    // in the BabaKhamima/Leagueproof repo. No Astryx slot for infoMuted,
+    // same gap as the unmapped "info" token below.
+    '--color-background-inverted': ['#111214', '#111214'],
+    '--color-success-muted': ['#DCF0E4', '#DCF0E4'],
+    '--color-warning-muted': ['#FAEDD8', '#FAEDD8'],
+    '--color-error-muted': ['#F9E5E5', '#F9E5E5'],
+
     // No LEAGUEPROOF override for the secondary/guardian blue (#1A4FD6
     // light / #3A9BFF dark) or a generic "info" token yet — Astryx has no
     // matching semantic slot (it uses per-hue categorical tokens like
