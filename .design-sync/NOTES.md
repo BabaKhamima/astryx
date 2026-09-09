@@ -1,5 +1,39 @@
 # design-sync notes — LEAGUEPROOF Design System
 
+## 2026-09-09 re-sync — Coach App's 4 new tokens mirrored in
+
+- `apps/mobile/coach/design` (BabaKhamima/Leagueproof) added `background-inverted` and three
+  muted-status tints (`success`/`warning`/`error`) to `@leagueproof/tokens` and
+  `apps/web/lib/leagueproofTheme.ts`. Mirrored the same 4 tokens into this package's
+  `packages/themes/leagueproof/src/leagueproofTheme.ts` per its own documented sync protocol,
+  rebuilt (`pnpm run build`), and re-ran the driver.
+- **Light-mode values only, deliberately** — the coach app hasn't had a dark-mode design pass, so
+  there's no designer-specified dark value for any of the 4. Used the light value for both modes
+  (`['#hex', '#hex']` not a real light/dark pair) rather than inventing one. If a future sync finds
+  real dark values, replace these, don't assume they're already correct.
+- No `--color-info-muted` override — same gap as the pre-existing unmapped `--color-info`, no
+  matching Astryx semantic slot.
+- Astryx does have real slots for all 3 muted-status tokens (`--color-success-muted` /
+  `-warning-muted` / `-error-muted`, confirmed via `tokens.stylex.ts`) and for
+  `--color-background-inverted` — these aren't invented token names, they're real Astryx core
+  tokens that LEAGUEPROOF simply hadn't overridden before.
+- Rebuilt `.design-sync/sb-reference` before running the driver (source changed) — this correctly
+  triggered a `reference_drift` canary spot-check on the 5 owned-preview components (Theme,
+  AspectRatio, MediaTheme, Tooltip, Layout — the only 5 that have ever needed an owned `.tsx`).
+  All 5 re-verified `match` from fresh screenshots, no regression from the token change.
+- No component's `sourceKeys` changed (verification.changed/added: both empty) — a pure
+  token-value addition doesn't touch any component's story/source contract, so all 98 components
+  carried forward with zero re-grading needed, per the skill's own rebuild-rules table.
+- Added a `conventions.md` bullet for the 4 new tokens (validated both names exist in the built
+  `theme.css` via grep before writing) — the file's authors didn't write it originally since the
+  tokens didn't exist yet; this is an addition, not a rewrite of anything they decided.
+- Local git note: this repo's `main` is a stale branch relative to `fork/main` on GitHub — the
+  `packages/themes/leagueproof` package (and this whole design-sync setup) exists only on local
+  `main` and was never actually pushed to `fork/main`. Design-sync itself doesn't need this pushed
+  (upload goes straight to claude.ai/design via the DesignSync tool, not through git), but anyone
+  trying to `git push`/rebase this branch onto `fork/main` will hit large unrelated conflicts —
+  reconcile deliberately, don't rebase blind.
+
 ## 2026-09-04 re-sync — theme values fixed, storybookConfigDir bug found and fixed
 
 - **The theme package's actual values were wrong, not just unsynced.** `packages/themes/leagueproof/src/leagueproofTheme.ts`

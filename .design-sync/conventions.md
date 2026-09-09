@@ -42,6 +42,14 @@ already consume these tokens internally:
   Astryx has no matching semantic slot (it uses per-hue categorical tokens like
   `--color-background-blue` instead); these still read Astryx's stock values. Needs resolving
   before building the guardian-verification screens, which lean on this color heavily.
+- `--color-success-muted` / `--color-warning-muted` / `--color-error-muted` — muted/tinted
+  backgrounds for the same three statuses (pills, badge fills). LEAGUEPROOF-specific, added
+  2026-09 for the Coach App. **Light-mode value only** — the coach app hasn't had a dark-mode
+  design pass, so these currently render identically in both modes; do not assume the dark value
+  is final. No `--color-info-muted` override, same gap as `--color-info` above.
+- `--color-background-inverted` — a surface that's always the opposite of the current theme mode
+  (e.g. an inverted chip/badge). LEAGUEPROOF-specific, added 2026-09. Same light-mode-only caveat
+  as the muted status tokens above.
 - `--radius-inner` / `--radius-element` / `--radius-container` / `--radius-page` — radius scale,
   inherited from `@astryxdesign/theme-neutral` unmodified (not yet mapped to LEAGUEPROOF's own
   radii spec).
