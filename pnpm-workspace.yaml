@@ -68,6 +68,7 @@ overrides:
 # (managed via `pnpm approve-builds`). These are the same packages previously
 # trusted to run install/build scripts under pnpm 10's onlyBuiltDependencies.
 allowBuilds:
+  '@astryxdesign/core': true
   '@parcel/watcher': true
   '@swc/core': true
   core-js: true

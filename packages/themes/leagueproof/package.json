@@ -52,12 +52,12 @@
     "lucide-react": "^1.18.0"
   },
   "peerDependencies": {
-    "@astryxdesign/core": "0.1.6",
-    "@astryxdesign/theme-neutral": "0.1.6",
+    "@astryxdesign/core": "0.2.0",
+    "@astryxdesign/theme-neutral": "0.2.0",
     "react": ">=19"
   },
   "devDependencies": {
-    "@astryxdesign/cli": "0.1.6"
+    "@astryxdesign/cli": "0.2.0"
   },
   "module": "./dist/source.mjs"
 }
